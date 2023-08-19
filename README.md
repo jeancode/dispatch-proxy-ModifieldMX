@@ -1,59 +1,60 @@
-### This project is archived and will not receive any further updates. A modern rewrite of this tool is available [here](https://github.com/alexkirsz/dispatch).
 
 # dispatch-proxy
 
-A SOCKS5/HTTP proxy that balances traffic between multiple internet connections.
+A SOCKS5/HTTP proxy que equilibra el tráfico entre varias conexiones a Internet.
 
 _Works on <b>Mac OS X</b>, <b>Windows</b> and <b>Linux</b>._
 
-**Detailed installation instructions:**
+**Instrucciones de instalación detalladas:**
 
 - Windows: [imgur album](http://imgur.com/a/0snis)
 - Mac OS X: [imgur album](http://imgur.com/a/TSD5F)
 
-## Installation
+## Instalación
 
-You'll need to have Node.JS >= 0.10.0 installed on your system.
+
+Deberá tener Node.JS >= 0.10.0 instalado en su sistema.
 
 ```
 $ npm install -g dispatch-proxy
 ```
 
-To update:
+Actualizar
 
 ```
 $ npm update -g dispatch-proxy
 ```
+## Justificación
 
-## Rationale
+A menudo te encuentras con múltiples conexiones a Internet sin usar, ya sea una suscripción móvil 3G/4G o un punto de acceso wifi gratuito, que tu sistema no te permite usar junto con la principal.
 
-You often find yourself with multiple unused internet connections, be it a 3G/4G mobile subscription or a free wifi hotspot, that your system won't let you use together with your main one.
+Por ejemplo, mi residencia me proporciona acceso a Internet por cable e inalámbrico. Ambos tienen un límite de velocidad de carga/descarga de 1200 kB/s, pero pueden ejecutarse simultáneamente a toda velocidad. Mi acceso a Internet móvil también me proporciona una velocidad de carga/descarga de 400kB/s.
 
-For example, my residence provides me with a cabled and wireless internet access. Both are capped at 1,200kB/s download/upload speed, but they can simultaneously run at full speed. My mobile internet access also provides me with 400kB/s download/upload speed.
+Combine todo esto con `dispatch` y un administrador de descargas por subprocesos y obtendrá un límite de velocidad de carga y descarga de 2800 kB/s, que es considerablemente mejor :)
 
-Combine all of these with `dispatch` and a threaded download manager and you get a 2,800kB/s download and upload speed limit, which is considerably better :)
+## Casos de uso
 
-## Use-cases
+Las posibilidades son infinitas:
 
-The possibilities are endless:
-
-- combine as many Wi-Fi networks/Ethernet/3G/4G connections as you have access to in one big, load balanced connection,
-- use it in conjunction with a threaded download manager, effectively combining multiple connections' speed in single file downloads,
-- create two proxies, assign to each its own interface, and run two apps simultaneously that use a different interface (e.g. for balancing download/upload),
-- create a hotspot proxy at home that connects through Ethernet and your 4G card for all your mobile devices,
+- combine tantas redes Wi-Fi/Ethernet/3G/4G como tenga acceso en una gran conexión con carga equilibrada,
+- Úselo junto con un administrador de descargas en subprocesos, combinando efectivamente la velocidad de múltiples conexiones en descargas de un solo archivo,
+- cree dos proxies, asigne a cada uno su propia interfaz y ejecute dos aplicaciones simultáneamente que usen una interfaz diferente (por ejemplo, para equilibrar la carga/descarga),
+- cree un proxy de punto de acceso en casa que se conecte a través de Ethernet y su tarjeta 4G para todos sus dispositivos móviles,
 - etc.
 
-## Quick start
 
-The module provides a simple command-line utility called `dispatch`.
+## Inicio rápido
+
+El módulo proporciona una sencilla utilidad de línea de comandos llamada `dispatch`.
 
 ```
 $ dispatch start
 ```
 
-Start a SOCKS proxy server on `localhost:1080`. Simply add this address as a SOCKS proxy in your system settings and your traffic will be automatically balanced between all available internet connections.
+Inicie un servidor proxy SOCKS en `localhost:1080`. Simplemente agregue esta dirección como un proxy SOCKS en la configuración de su sistema y su tráfico se equilibrará automáticamente entre todas las conexiones de Internet disponibles.
 
-## Usage
+
+## Uso
 
 ```
 $ dispatch -h
@@ -85,22 +86,21 @@ $ dispatch start -h
     --debug         log debug info in the console
 ```
 
-## Examples
+## Ejemplos
 
 ```
 $ dispatch start --http
 ```
+Inicie un servidor proxy HTTP escuchando en `localhost:8080`, enviando conexiones a todas las direcciones locales IPv4 no internas.
 
-Start an HTTP proxy server listening on `localhost:8080`, dispatching connections to every non-internal IPv4 local addresses.
 
 ```
 $ dispatch start 10.0.0.0 10.0.0.1
 ```
+Envíe conexiones solo a las direcciones locales `10.0.0.0` y `10.0.0.1`.
 
-Dispatch connections only to local addresses `10.0.0.0` and `10.0.0.1`.
 
 ```
 $ dispatch start 10.0.0.0@7 10.0.0.1@3
 ```
-
-Dispatch connections to `10.0.0.0` 7 times out of 10 and to '10.0.0.1' 3 times out of 10.
+Envíe conexiones a `10.0.0.0` 7 veces de cada 10 y a '10.0.0.1' 3 veces de cada 10.
